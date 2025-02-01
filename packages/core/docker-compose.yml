@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+    core:
+        container_name: gaapi01
+        hostname: gaapi01
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        ports:
+            - "3000:3000"
+        restart: unless-stopped
+        command: go run github.com/air-verse/air@latest air -c .air.toml
+        healthcheck:
+            test: curl --fail http://localhost:3000/api/ping || exit 1
+            interval: 15s
+            timeout: 15s
+            retries: 3
+        volumes:
+            - .:/build

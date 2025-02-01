@@ -1,0 +1,4 @@
+include:
+    - ./packages/wpp/docker-compose.yml
+    - ./.docker/postgresql/docker-compose.yml
+    - ./packages/core/docker-compose.yml
