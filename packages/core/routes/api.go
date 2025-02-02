@@ -30,11 +30,16 @@ func signinGroup(router route.Router) {
 	router.Middleware(utils.GrantAuth(controller.UserService.FindByID)).Any("/me", controller.Me)
 }
 
+// authGroup are routes who should be authenticated to be able to request resources
 func authGroup(router route.Router) {
+	redis := controllers.NewRedisRestController()
 	onboarding := controllers.NewOnboardingController()
 
 	router.Post("/onboarding", onboarding.Set)
 	router.Get("/onboarding", onboarding.Get)
+
+	router.Post("/redis", redis.Set)
+	router.Get("/redis", redis.Get)
 }
 
 func webhookRoutes(router route.Router) {
