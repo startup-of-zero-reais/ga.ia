@@ -1,14 +1,14 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-import { fixupConfigRules } from "@eslint/compat";
-import importPlugin from "eslint-plugin-import";
-import prettier from "eslint-plugin-prettier";
-import security from "eslint-plugin-security";
-import globals from "globals";
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import tsParser from "@typescript-eslint/parser";
-import { fixupPluginRules } from "@eslint/compat";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { FlatCompat } from '@eslint/eslintrc';
+import { fixupConfigRules } from '@eslint/compat';
+import importPlugin from 'eslint-plugin-import';
+import prettier from 'eslint-plugin-prettier';
+import security from 'eslint-plugin-security';
+import globals from 'globals';
+import typescriptEslint from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import { fixupPluginRules } from '@eslint/compat';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -18,32 +18,32 @@ const compat = new FlatCompat({
 });
 
 const files = [
-	"**/*.ts",
-	"**/*.tsx",
-	"**/**/*.ts",
-	"**/**/*.tsx",
-	"**/**/**/*.ts",
-	"**/**/**/*.tsx",
+	'**/*.ts',
+	'**/*.tsx',
+	'**/**/*.ts',
+	'**/**/*.tsx',
+	'**/**/**/*.ts',
+	'**/**/**/*.tsx',
 ];
 
 const eslintConfig = [
 	...fixupConfigRules(
 		compat.extends(
-			"next/core-web-vitals",
-			"next/typescript",
-			"plugin:@typescript-eslint/eslint-recommended",
-			"plugin:@typescript-eslint/recommended",
-			"plugin:import/typescript",
-			"prettier",
+			'next/core-web-vitals',
+			'next/typescript',
+			'plugin:@typescript-eslint/eslint-recommended',
+			'plugin:@typescript-eslint/recommended',
+			'plugin:import/typescript',
+			'prettier',
 		),
 	).map((config) => ({ ...config, files })),
 	{
-		ignores: ["node_modules", "coverage", "dist"],
+		ignores: ['node_modules', 'coverage', 'dist'],
 	},
 	{
 		files,
 		plugins: {
-			"@typescript-eslint": fixupPluginRules(typescriptEslint),
+			'@typescript-eslint': fixupPluginRules(typescriptEslint),
 			security: security.configs.recommended,
 			prettier,
 			importPlugin: importPlugin.flatConfigs.recommended,
@@ -53,73 +53,78 @@ const eslintConfig = [
 		languageOptions: {
 			globals: {
 				...globals.browser,
-				Atomics: "readonly",
-				SharedArrayBuffer: "readonly",
+				Atomics: 'readonly',
+				SharedArrayBuffer: 'readonly',
 			},
 			parser: tsParser,
 			ecmaVersion: 5,
-			sourceType: "script",
+			sourceType: 'script',
 			parserOptions: {
-				project: "./tsconfig.json",
+				project: './tsconfig.json',
 			},
 		},
 
 		settings: {
-			"import/resolver": {
-				...importPlugin.configs.typescript.settings["import/resolver"],
+			'import/resolver': {
+				...importPlugin.configs.typescript.settings['import/resolver'],
 				typescript: {
 					alwaysTryTypes: true,
-					project: "./tsconfig.json",
+					project: './tsconfig.json',
 				},
 			},
 		},
 
 		rules: {
-			"import/extensions": [
-				"error",
-				"ignorePackages",
+			'import/extensions': [
+				'error',
+				'ignorePackages',
 				{
-					ts: "never",
-					tsx: "never",
-					css: "always",
+					ts: 'never',
+					tsx: 'never',
+					css: 'always',
 				},
 			],
-			"no-restricted-imports": [
-				"error",
+			'no-restricted-imports': [
+				'error',
 				{
-					patterns: ["..*", "!./*"],
+					patterns: ['..*', '!./*'],
 				},
 			],
-			"import/order": [
-				"error",
+			'import/order': [
+				'error',
 				{
-					"newlines-between": "never",
+					'newlines-between': 'never',
 					pathGroups: [
 						{
-							pattern: "@/lib/**",
-							group: "external",
-							position: "after",
+							pattern: '@/lib/**',
+							group: 'external',
+							position: 'after',
 						},
 						{
-							pattern: "@/components/**",
-							group: "external",
-							position: "after",
+							pattern: '@/components/**',
+							group: 'external',
+							position: 'after',
 						},
 						{
-							pattern: "@/hooks/**",
-							group: "external",
-							position: "after",
+							pattern: '@/hooks/**',
+							group: 'external',
+							position: 'after',
 						},
 						{
-							pattern: "./**",
-							group: "external",
-							position: "after",
+							pattern: '@/app/**',
+							group: 'external',
+							position: 'after',
+						},
+						{
+							pattern: './**',
+							group: 'external',
+							position: 'after',
 						},
 					],
 					distinctGroup: false,
 				},
 			],
-			"prettier/prettier": "error",
+			'prettier/prettier': 'error',
 		},
 	},
 ];

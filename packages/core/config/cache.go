@@ -1,7 +1,9 @@
 package config
 
 import (
+	"github.com/goravel/framework/contracts/cache"
 	"github.com/goravel/framework/facades"
+	redisfacades "github.com/goravel/redis/facades"
 )
 
 func init() {
@@ -21,6 +23,13 @@ func init() {
 		// same cache driver to group types of items stored in your caches.
 		// Available Drivers: "memory", "custom"
 		"stores": map[string]any{
+			"redis": map[string]any{
+				"driver":     "custom",
+				"connection": "default",
+				"via": func() (cache.Driver, error) {
+					return redisfacades.Redis("redis"), nil
+				},
+			},
 			"memory": map[string]any{
 				"driver": "memory",
 			},

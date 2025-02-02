@@ -1,4 +1,5 @@
 include:
-    - ./packages/wpp/docker-compose.yml
     - ./.docker/postgresql/docker-compose.yml
+    - ./.docker/redis/docker-compose.yml
+    - ./packages/wpp/docker-compose.yml
     - ./packages/core/docker-compose.yml

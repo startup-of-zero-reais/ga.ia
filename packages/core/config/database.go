@@ -8,7 +8,7 @@ func init() {
 	config := facades.Config()
 	config.Add("database", map[string]any{
 		// Default database connection name
-		"default": config.Env("DB_CONNECTION", "mysql"),
+		"default": config.Env("DB_CONNECTION", "postgres"),
 
 		// Database connections
 		"connections": map[string]any{
@@ -100,7 +100,7 @@ func init() {
 		// the migrations on disk haven't actually been run in the database.
 		// Available Drivers: "default", "sql"
 		"migrations": map[string]any{
-			"driver": "default",
+			"driver": "sql",
 			"table":  "migrations",
 		},
 

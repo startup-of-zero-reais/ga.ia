@@ -37,6 +37,7 @@ export function createServerClient(options: CreateServerClientOptions) {
 
 		const response = await fetch(`${API_DOMAIN}/v1/auth/me`, {
 			keepalive: true,
+			credentials: 'include',
 			headers: {
 				Authorization: `Bearer ${session.value}`,
 			},

@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+
 export default function OnboardingPage() {
-	return <div>Onboarding</div>;
+	return redirect('/onboarding/boas-vindas');
 }

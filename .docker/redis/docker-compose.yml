@@ -1,0 +1,13 @@
+services:
+    gaia_redis:
+        image: bitnami/redis:latest
+        ports:
+            - 6379:6379
+        environment:
+            - REDIS_PASSWORD=${REDIS_PASSWORD}
+        command: /opt/bitnami/scripts/redis/run.sh --maxmemory 100mb
+        deploy:
+            resources:
+                limits:
+                    cpus: "0.65"
+                    memory: "250MB"

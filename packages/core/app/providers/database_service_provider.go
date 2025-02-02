@@ -4,14 +4,12 @@ import (
 	"github.com/goravel/framework/contracts/foundation"
 	"github.com/goravel/framework/facades"
 
-	"goravel/database"
+	"github.com/startup-of-zero-reais/ga.ia/database"
 )
 
-type DatabaseServiceProvider struct {
-}
+type DatabaseServiceProvider struct{}
 
 func (receiver *DatabaseServiceProvider) Register(app foundation.Application) {
-
 }
 
 func (receiver *DatabaseServiceProvider) Boot(app foundation.Application) {

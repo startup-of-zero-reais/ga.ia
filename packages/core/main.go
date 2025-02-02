@@ -1,10 +1,11 @@
 package main
 
 import (
-	"goravel/bootstrap"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/startup-of-zero-reais/ga.ia/bootstrap"
 
 	"github.com/goravel/framework/facades"
 )

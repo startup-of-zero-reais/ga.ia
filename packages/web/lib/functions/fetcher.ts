@@ -2,6 +2,8 @@ interface SWRError extends Error {
 	status: number;
 }
 
+const NO_CONTENT = 204;
+
 export async function fetcher<JSON = unknown>(
 	input: RequestInfo,
 	init?: RequestInit,
@@ -13,6 +15,10 @@ export async function fetcher<JSON = unknown>(
 		const err = new Error(error) as SWRError;
 		err.status = response.status;
 		throw err;
+	}
+
+	if (response.status === NO_CONTENT) {
+		return null as JSON;
 	}
 
 	return response.json();

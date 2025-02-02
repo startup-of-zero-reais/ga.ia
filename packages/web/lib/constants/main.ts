@@ -2,6 +2,10 @@ const PORT = process.env.PORT || 3000;
 const API_PORT = process.env.API_PORT || 8080;
 const API_HOST = process.env.API_HOST || 'localhost';
 
+const EVO_API_PORT = process.env.EVO_API_PORT || 8081;
+const EVO_API_HOST = process.env.EVO_API_HOST || 'localhost';
+export const EVO_API_KEY = process.env.EVO_API_KEY || '';
+
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
 
 const IS_PROD_ENV = process.env.NEXT_PUBLIC_ENV === 'production';
@@ -32,3 +36,9 @@ export const API_DOMAIN = IS_PROD_ENV
 	: IS_PREVIEW_ENV
 		? `https://api-staging.${process.env.NEXT_PUBLIC_APP_DOMAIN}`
 		: `http://${API_HOST}:${API_PORT}/api`;
+
+export const EVO_API_DOMAIN = IS_PROD_ENV
+	? `https://${process.env.NEXT_PUBLIC_APP_DOMAIN}/api`
+	: IS_PREVIEW_ENV
+		? `https://api-staging.${process.env.NEXT_PUBLIC_APP_DOMAIN}`
+		: `http://${EVO_API_HOST}:${EVO_API_PORT}`;

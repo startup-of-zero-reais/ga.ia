@@ -1,7 +1,14 @@
 package config
 
 import (
+	"os"
+
 	"github.com/goravel/framework/facades"
+)
+
+const (
+	SESSION_TOKEN        = "session_token"
+	SECURE_SESSION_TOKEN = "__Secure-session_token"
 )
 
 func init() {
@@ -32,5 +39,23 @@ func init() {
 				"driver": "jwt",
 			},
 		},
+
+		"providers": map[string]any{
+			"google": map[string]any{
+				"client_id":    config.Env("GOOGLE_CLIENT_ID", ""),
+				"secret_key":   config.Env("GOOGLE_SECRET_KEY", ""),
+				"callback_url": config.Env("GOOGLE_REDIRECT_URL", "http://localhost:8080/api/auth/v1/callback"),
+			},
+		},
+
+		"token_key": getSessionToken(),
 	})
+}
+
+func getSessionToken() string {
+	if env := os.Getenv("ENVIRONMENT"); env == "production" {
+		return SECURE_SESSION_TOKEN
+	}
+
+	return SESSION_TOKEN
 }
