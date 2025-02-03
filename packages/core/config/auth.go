@@ -48,7 +48,8 @@ func init() {
 			},
 		},
 
-		"token_key": getSessionToken(),
+		"token_key":         getSessionToken(),
+		"evolution_api_key": config.Env("EVOLUTION_API_KEY", ""),
 	})
 }
 

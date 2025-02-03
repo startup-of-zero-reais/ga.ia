@@ -40,6 +40,17 @@ func authGroup(router route.Router) {
 
 	router.Post("/redis", redis.Set)
 	router.Get("/redis", redis.Get)
+
+	router.Prefix("/wpp").Group(evolutionGroup)
+}
+
+func evolutionGroup(router route.Router) {
+	controller := controllers.NewEvolutionController()
+
+	router.Get("/instance", controller.Index)
+	router.Get("/instance/{token}", controller.Show)
+	router.Post("/instance", controller.Store)
+	router.Get("/instance/connect/{token}", controller.Connect)
 }
 
 func webhookRoutes(router route.Router) {

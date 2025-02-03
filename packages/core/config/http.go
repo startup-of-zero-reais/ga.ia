@@ -50,5 +50,10 @@ func init() {
 				"key": "",
 			},
 		},
+
+		// HTTP targets
+		"api": map[string]any{
+			"evolution": config.Env("EVOLUTION_API_URL", "http://localhost:8081"),
+		},
 	})
 }

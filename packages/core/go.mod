@@ -11,6 +11,7 @@ require (
 	github.com/goravel/gin v1.3.2
 	github.com/goravel/redis v1.3.0
 	github.com/jackc/pgx/v5 v5.7.2
+	github.com/opus-domini/fast-shot v1.1.4
 	github.com/stretchr/testify v1.10.0
 	golang.org/x/oauth2 v0.24.0
 	google.golang.org/grpc v1.70.0
@@ -191,3 +192,5 @@ require (
 	modernc.org/memory v1.8.1 // indirect
 	modernc.org/sqlite v1.34.4 // indirect
 )
+
+replace github.com/opus-domini/fast-shot v1.1.4 => github.com/jeanmolossi/fast-shot v0.0.0-20250202205310-00fba117fc47
