@@ -19,6 +19,7 @@ export default function CreateAgentInstanceForm() {
 
 	const [identification, setIdentification] = useState('');
 	const [token, setToken] = useState(randomValue);
+	const [number, setNumber] = useState('');
 
 	const onChange = useCallback(
 		(setter: (v: string) => void) =>
@@ -50,7 +51,7 @@ export default function CreateAgentInstanceForm() {
 			return;
 		}
 
-		await continueTo('conectar-whatsapp');
+		await continueTo('conectar-whatsapp', { token, identification });
 	}, [continueTo, executeAsync, identification, token]);
 
 	return (
@@ -79,7 +80,12 @@ export default function CreateAgentInstanceForm() {
 				<Label htmlFor="phone-number">Número de whatsapp</Label>
 				<div className="grid grid-cols-[auto,1fr] gap-2">
 					<Badge variant="outline">+55</Badge>
-					<Input id="phone-number" placeholder="(11) 98877-6666" />
+					<Input
+						id="phone-number"
+						placeholder="(11) 98877-6666"
+						value={number}
+						onChange={onChange(setNumber)}
+					/>
 				</div>
 			</div>
 

@@ -1,8 +1,8 @@
 'use server';
 
 import { z } from 'zod';
-import { fetcher } from '@/lib/functions/fetcher';
-import { EVO_API_DOMAIN, EVO_API_KEY } from '@/lib/constants/main';
+import { API_DOMAIN } from '@/lib/constants/main';
+import { authFetch } from '@/lib/functions/auth-fetcher';
 import { authActionClient } from './safe-action';
 
 export const createInstanceAction = authActionClient
@@ -10,24 +10,22 @@ export const createInstanceAction = authActionClient
 		z.object({
 			instanceName: z.string().min(3),
 			token: z.string().min(36),
+			number: z.string().optional(),
 		}),
 	)
 	.action(async ({ parsedInput }) => {
-		const { token, instanceName } = parsedInput;
+		const { token, instanceName, number } = parsedInput;
 
-		console.log(EVO_API_DOMAIN, parsedInput);
-
-		const response = await fetcher(`${EVO_API_DOMAIN}/instance/create`, {
+		const response = await authFetch(`${API_DOMAIN}/v1/wpp/instance`, {
 			method: 'POST',
 			credentials: 'include',
 			body: JSON.stringify({
-				instanceName: instanceName.trim(),
+				name: instanceName.trim(),
 				token: token.trim(),
-				integration: 'WHATSAPP-BAILEYS',
+				number: number?.trim(),
 			}),
 			headers: {
 				'Content-Type': 'application/json',
-				Apikey: EVO_API_KEY,
 			},
 		});
 

@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 import { fetcher } from '@/lib/functions/fetcher';
+import { EVO_API_KEY } from '../constants/main';
 
 interface SWRError extends Error {
 	status: number;
@@ -40,4 +41,17 @@ export async function simpleAuthFetch<Text = unknown>(
 	}
 
 	return response.text() as Text;
+}
+
+export async function evoFetcher<JSON = unknown>(
+	input: RequestInfo,
+	init?: RequestInit,
+): Promise<JSON> {
+	return authFetch(input, {
+		...(init || {}),
+		headers: {
+			...(init?.headers || {}),
+			apikey: EVO_API_KEY,
+		},
+	});
 }

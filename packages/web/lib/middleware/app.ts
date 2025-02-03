@@ -57,8 +57,9 @@ export default async function AppMiddleware(request: NextRequest) {
 
 		// se o usuario esta logado
 	} else if (user) {
-		if (path.startsWith(PAGE.ONBOARDING)) {
+		if (path.startsWith(PAGE.ONBOARDING) && step === ONBOARDING_COMPLETED) {
 			// middleware de onboarding ?
+			return NextResponse.redirect(new URL(`/app/dashboard`, request.url));
 		} else if (
 			isNewUser &&
 			!path.startsWith(PAGE.ONBOARDING) &&

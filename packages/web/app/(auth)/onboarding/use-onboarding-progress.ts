@@ -23,9 +23,15 @@ export function useOnboardingProgress() {
 	);
 
 	const continueTo = useCallback(
-		async (step: OnboardingStep) => {
+		async (step: OnboardingStep, extras: Record<string, string> = {}) => {
+			let query = '';
+			if (Object.keys(extras).length > 0) {
+				query += `?`;
+				query += new URLSearchParams(extras).toString();
+			}
+
 			execute({ onboardingStep: step });
-			router.push(`/onboarding/${step}`);
+			router.push(`/onboarding/${step}${query}`);
 		},
 		[execute, router],
 	);
