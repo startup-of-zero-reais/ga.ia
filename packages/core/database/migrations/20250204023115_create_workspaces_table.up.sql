@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS workspaces (
     name       VARCHAR(150) NOT NULL,
     slug       VARCHAR(150),
 
-    CONSTRAINT fk_workspaces_user FOREIGN KEY (user_id) REFERENCES users (id)
+    CONSTRAINT fk_workspaces_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) INHERITS (_timestamps);
 
 CREATE UNIQUE INDEX idx_workspaces_slug ON workspaces(slug);
@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS workspace_users (
     user_id        UUID NOT NULL,
     role           workspace_user_role DEFAULT 'viewer',
 
-    CONSTRAINT fk_workspace_users_workspace FOREIGN KEY (workspace_id) REFERENCES workspaces (id),
-    CONSTRAINT fk_workspace_users_user FOREIGN KEY (user_id) REFERENCES users (id)
+    CONSTRAINT fk_workspace_users_workspace FOREIGN KEY (workspace_id) REFERENCES workspaces (id) ON DELETE CASCADE,
+    CONSTRAINT fk_workspace_users_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 ) INHERITS (_timestamps);
 
 CREATE UNIQUE INDEX IF NOT EXISTS uq_workspace_user ON workspace_users(workspace_id, user_id);

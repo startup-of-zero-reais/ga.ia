@@ -87,7 +87,8 @@ func notificationsGroup(router route.Router) {
 
 func workspacesGroup(router route.Router) {
 	controller := controllers.NewWorkspaceController()
-	router.Any("/", controller.Index)
+	router.Post("/", controller.Store)
+	router.Get("/{workspaceID}", controller.Index)
 }
 
 func billingsGroup(router route.Router) {

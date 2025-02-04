@@ -19,7 +19,7 @@ type WorkspaceUser struct {
 
 	WorkspaceID string `gorm:"column:workspace_id;default:null" json:"workspace_id"`
 	UserID      string `gorm:"column:user_id;default:null" json:"user_id"`
-	Role        string `gorm:"column:role"`
+	Role        string `gorm:"column:role" json:"role"`
 
 	User      *User      `json:"user,omitempty"`
 	Workspace *Workspace `json:"workspace,omitempty"`
