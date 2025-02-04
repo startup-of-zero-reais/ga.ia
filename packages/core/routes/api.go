@@ -42,6 +42,13 @@ func authGroup(router route.Router) {
 	router.Get("/redis", redis.Get)
 
 	router.Prefix("/wpp").Group(evolutionGroup)
+	router.Prefix("/agents").Group(agentsGroup)
+	router.Prefix("/chats").Group(chatsGroup)
+	router.Prefix("/datastores").Group(datastoresGroup)
+	router.Prefix("/notifications").Group(notificationsGroup)
+	router.Prefix("/workspaces").Group(workspacesGroup)
+	router.Prefix("/billings").Group(billingsGroup)
+	router.Prefix("/plans").Group(plansGroup)
 }
 
 func evolutionGroup(router route.Router) {
@@ -56,4 +63,39 @@ func evolutionGroup(router route.Router) {
 func webhookRoutes(router route.Router) {
 	controller := controllers.NewWebhookController()
 	router.Any("/v1/webhook", controller.Receive)
+}
+
+func agentsGroup(router route.Router) {
+	controller := controllers.NewAgentsController()
+	router.Any("/", controller.Index)
+}
+
+func chatsGroup(router route.Router) {
+	controller := controllers.NewChatsController()
+	router.Any("/", controller.Index)
+}
+
+func datastoresGroup(router route.Router) {
+	controller := controllers.NewDatastoresController()
+	router.Any("/", controller.Index)
+}
+
+func notificationsGroup(router route.Router) {
+	controller := controllers.NewNotificationsController()
+	router.Any("/", controller.Index)
+}
+
+func workspacesGroup(router route.Router) {
+	controller := controllers.NewWorkspaceController()
+	router.Any("/", controller.Index)
+}
+
+func billingsGroup(router route.Router) {
+	controller := controllers.NewBillingsController()
+	router.Any("/", controller.Index)
+}
+
+func plansGroup(router route.Router) {
+	controller := controllers.NewPlansController()
+	router.Any("/", controller.Index)
 }
