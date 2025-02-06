@@ -28,8 +28,10 @@ export async function fetcherWithCookies<JSON = unknown>(
 	input: RequestInfo,
 	init?: RequestInit,
 ): Promise<JSON> {
-	return fetcher(input, {
+	return await fetcher(input, {
 		...(init || {}),
 		credentials: 'include',
+		keepalive: true,
+		mode: 'cors',
 	});
 }

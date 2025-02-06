@@ -1,6 +1,9 @@
 export const ONBOARDING_COMPLETED = 'finalizar';
 
 export const ONBOARDING_STEPS = [
+	'espaco-de-trabalho',
+	'criar-agente',
+
 	'criar-instancia',
 	'conectar-whatsapp',
 	'configurar-llm',
