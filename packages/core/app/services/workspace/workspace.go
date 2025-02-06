@@ -8,6 +8,7 @@ import (
 type Workspace interface {
 	Create(models.User, requests.CreateWorkspace) (models.Workspace, error)
 	FindByID(string, string) (models.Workspace, error)
+	FindBySlug(string) (models.Workspace, error)
 }
 
 type WorkspaceImpl struct{}

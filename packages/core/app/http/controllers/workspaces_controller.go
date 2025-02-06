@@ -5,6 +5,7 @@ import (
 	"github.com/goravel/framework/facades"
 	"github.com/startup-of-zero-reais/ga.ia/app/helpers"
 	"github.com/startup-of-zero-reais/ga.ia/app/http/requests"
+	"github.com/startup-of-zero-reais/ga.ia/app/http/responses"
 	"github.com/startup-of-zero-reais/ga.ia/app/models"
 	"github.com/startup-of-zero-reais/ga.ia/app/services/workspace"
 )
@@ -39,13 +40,36 @@ func (r *WorkspaceController) Store(ctx http.Context) http.Response {
 }
 
 func (r *WorkspaceController) Index(ctx http.Context) http.Response {
-	workspaceID := ctx.Request().Route("workspaceID")
-	usr := ctx.Request().Session().Get("user").(models.User)
+	slug := ctx.Request().Route("slug")
 
-	workspace, err := r.FindByID(usr.ID, workspaceID)
+	workspace, err := r.FindBySlug(slug)
 	if err != nil {
+		status := http.StatusUnprocessableEntity
+		if err == responses.ErrWorkspaceNotFound {
+			status = http.StatusNotFound
+		}
+
 		facades.Log().Errorf("failed to find workspace: %v", err)
-		ctx.Request().AbortWithStatus(http.StatusUnprocessableEntity)
+		ctx.Request().AbortWithStatus(status)
+		return nil
+	}
+
+	return ctx.Response().Success().Json(workspace)
+}
+
+func (r *WorkspaceController) Show(ctx http.Context) http.Response {
+	slug := ctx.Request().Query("workspace")
+
+	usr := ctx.Request().Session().Get("user").(models.User)
+	workspace, err := r.FindByID(usr.ID, slug)
+	if err != nil {
+		status := http.StatusUnprocessableEntity
+		if err == responses.ErrWorkspaceNotFound {
+			status = http.StatusNotFound
+		}
+
+		facades.Log().Errorf("failed to find workspace: %v", err)
+		ctx.Request().AbortWithStatus(status)
 		return nil
 	}
 

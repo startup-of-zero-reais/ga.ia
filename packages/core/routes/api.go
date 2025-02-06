@@ -1,9 +1,10 @@
 package routes
 
 import (
+	"github.com/goravel/framework/contracts/http"
 	"github.com/goravel/framework/contracts/route"
 	"github.com/goravel/framework/facades"
-	"github.com/goravel/framework/session/middleware"
+	sessionmiddleware "github.com/goravel/framework/session/middleware"
 
 	"github.com/startup-of-zero-reais/ga.ia/app/http/controllers"
 	"github.com/startup-of-zero-reais/ga.ia/app/http/middleware/utils"
@@ -11,7 +12,7 @@ import (
 )
 
 func Api() {
-	facades.Route().Prefix("/api").Middleware(middleware.StartSession()).Group(router)
+	facades.Route().Prefix("/api").Middleware(sessionmiddleware.StartSession()).Group(router)
 }
 
 func router(base route.Router) {
@@ -20,6 +21,9 @@ func router(base route.Router) {
 	base.Prefix("/v1/auth").Group(signinGroup)
 	base.Prefix("/v1").Middleware(utils.GrantAuth(userService.FindByID)).Group(authGroup)
 	base.Group(webhookRoutes)
+	base.Any("", func(ctx http.Context) http.Response {
+		return ctx.Response().NoContent()
+	})
 }
 
 func signinGroup(router route.Router) {
@@ -87,8 +91,9 @@ func notificationsGroup(router route.Router) {
 
 func workspacesGroup(router route.Router) {
 	controller := controllers.NewWorkspaceController()
-	router.Post("/", controller.Store)
-	router.Get("/{workspaceID}", controller.Index)
+	router.Post("", controller.Store)
+	router.Get("", controller.Show)
+	router.Get("/{slug}", controller.Index)
 }
 
 func billingsGroup(router route.Router) {
