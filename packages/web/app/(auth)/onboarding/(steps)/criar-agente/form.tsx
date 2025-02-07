@@ -3,6 +3,7 @@
 import { toast } from 'sonner';
 import React, { useCallback, useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
+import { useSearchParams } from 'next/navigation';
 import { LoaderCircle } from 'lucide-react';
 import useSWR from 'swr';
 import slugify from 'slugify';
@@ -10,7 +11,7 @@ import { faker } from '@faker-js/faker';
 import { cn } from '@/lib/utils';
 import { handleServerErrors } from '@/lib/functions/errors';
 import { extractFormData } from '@/lib/functions/extract-form-data';
-import { createWorkspaceAction } from '@/lib/actions/create-workspace';
+import { createAgentAction } from '@/lib/actions/create-agent';
 import { API_DOMAIN } from '@/lib/constants/main';
 import { fetcherWithCookies } from '@/lib/functions/fetcher';
 import { Button } from '@/components/ui/button';
@@ -20,11 +21,16 @@ import { Textarea } from '@/components/ui/textarea';
 import { useDebounce } from '@/hooks/use-debounce';
 import { useOnboardingProgress } from '@/app/(auth)/onboarding/use-onboarding-progress';
 
-const randomName = `${faker.git.branch()}-${faker.number.int({ min: 100000, max: 999999 })}`;
+const randomName = slugify(
+	`${faker.lorem.words({ min: 1, max: 3 })}-${faker.number.int({ min: 100000, max: 999999 })}`,
+	{ lower: true, trim: true },
+);
 
 export default function CreateAgentForm() {
 	const [name, setName] = useState(randomName);
 	const slug = useDebounce(slugify(name, { lower: true, trim: true }), 400);
+	const searchParams = useSearchParams();
+	const workspace = searchParams.get('slug');
 
 	const { data, isLoading: searching } = useSWR(
 		slug ? `${API_DOMAIN}/v1/agent/${slug}` : null,
@@ -36,13 +42,13 @@ export default function CreateAgentForm() {
 		useOnboardingProgress();
 
 	const { executeAsync, isExecuting, hasSucceeded } = useAction(
-		createWorkspaceAction,
+		createAgentAction,
 		{
 			onError({ error }) {
-				console.error('Failed to create workspace', error);
+				console.error('Failed to create agent', error);
 				if (!error?.validationErrors) {
 					toast.error(
-						'Ops, ocorreu um problema ao criar workspace, tente novamente.',
+						'Ops, ocorreu um problema ao criar agente, tente novamente.',
 					);
 				}
 			},
@@ -57,15 +63,19 @@ export default function CreateAgentForm() {
 
 			const { name, description } = extractFormData(e, ['name', 'description']);
 
-			const result = await executeAsync({ name, description });
+			const result = await executeAsync({
+				name,
+				workspace_id_or_slug: workspace!,
+				description,
+			});
 			const { proceed } = handleServerErrors(result);
 			if (!proceed) {
 				return;
 			}
 
-			await continueTo('criar-agente', { slug });
+			await continueTo('planos');
 		},
-		[continueTo, executeAsync, slug],
+		[continueTo, executeAsync, workspace],
 	);
 
 	return (
