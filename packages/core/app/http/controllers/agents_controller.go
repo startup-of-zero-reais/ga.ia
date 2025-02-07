@@ -51,7 +51,7 @@ func (r *AgentsController) Show(ctx http.Context) http.Response {
 	id := ctx.Request().Route("id")
 	usr := ctx.Request().Session().Get("user").(models.User)
 
-	agent, err := r.FindByID(usr, id)
+	agent, err := r.FindByIDOrSlug(usr, id)
 	if err != nil {
 		ctx.Request().AbortWithStatus(http.StatusUnprocessableEntity)
 		return nil

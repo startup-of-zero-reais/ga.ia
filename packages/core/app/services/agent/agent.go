@@ -8,7 +8,7 @@ import (
 
 type Agent interface {
 	Create(user models.User, cAgent requests.CreateAgent) (models.Agent, error)
-	FindByID(user models.User, id string) (models.Agent, error)
+	FindByIDOrSlug(user models.User, idOrSlug string) (models.Agent, error)
 }
 
 type Impl struct {

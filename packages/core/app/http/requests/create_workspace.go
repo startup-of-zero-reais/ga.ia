@@ -7,8 +7,9 @@ import (
 )
 
 type CreateWorkspace struct {
-	Name string `form:"name" json:"name"`
-	Slug string `form:"slug" json:"slug"`
+	Name        string `form:"name"        json:"name"`
+	Slug        string `form:"slug"        json:"slug"`
+	Description string `form:"description" json:"description"`
 }
 
 func (r *CreateWorkspace) Authorize(ctx http.Context) error {

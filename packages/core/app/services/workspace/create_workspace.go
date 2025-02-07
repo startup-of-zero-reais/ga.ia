@@ -13,6 +13,7 @@ func (w *Impl) Create(usr models.User, cw requests.CreateWorkspace) (models.Work
 	workspace.Name = cw.Name
 	workspace.Slug = cw.Slug
 	workspace.UserID = usr.ID
+	workspace.Description = cw.Description
 
 	workspace.Users = []models.WorkspaceUser{
 		{
