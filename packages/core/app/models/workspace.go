@@ -3,9 +3,10 @@ package models
 type Workspace struct {
 	Model
 
-	UserID string `gorm:"column:user_id;default:null" json:"user_id"`
-	Name   string `gorm:"column:name" json:"name"`
-	Slug   string `gorm:"column:slug" json:"slug"`
+	UserID      string `gorm:"column:user_id;default:null" json:"user_id"`
+	Name        string `gorm:"column:name"                 json:"name"`
+	Description string `gorm:"column:description"          json:"description"`
+	Slug        string `gorm:"column:slug"                 json:"slug"`
 
 	Users []WorkspaceUser `json:"users,omitempty"`
 }
@@ -18,8 +19,8 @@ type WorkspaceUser struct {
 	Model
 
 	WorkspaceID string `gorm:"column:workspace_id;default:null" json:"workspace_id"`
-	UserID      string `gorm:"column:user_id;default:null" json:"user_id"`
-	Role        string `gorm:"column:role" json:"role"`
+	UserID      string `gorm:"column:user_id;default:null"      json:"user_id"`
+	Role        string `gorm:"column:role"                      json:"role"`
 
 	User      *User      `json:"user,omitempty"`
 	Workspace *Workspace `json:"workspace,omitempty"`

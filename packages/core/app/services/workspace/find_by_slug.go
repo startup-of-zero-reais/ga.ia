@@ -7,7 +7,7 @@ import (
 )
 
 // FindBySlug implements Workspace.
-func (w *WorkspaceImpl) FindBySlug(slug string) (models.Workspace, error) {
+func (w *Impl) FindBySlug(slug string) (models.Workspace, error) {
 	var workspace models.Workspace
 
 	err := facades.Orm().Query().

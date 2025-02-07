@@ -1,0 +1,25 @@
+linters:
+    presets:
+        - bugs
+        - performance
+        - style
+        - format
+        - import
+        - complexity
+    disable:
+        - depguard
+        - wsl
+        - forcetypeassert
+
+linters-settings:
+    tagliatelle:
+        case:
+            rules:
+                json: snake
+
+    varnamelen:
+        max-distance: 6
+        min-name-length: 2
+        ignore-names:
+            - id
+            - err

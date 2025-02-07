@@ -5,6 +5,7 @@ go 1.22.7
 toolchain go1.23.3
 
 require (
+	github.com/PumpkinSeed/errors v1.0.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.6.0
 	github.com/goravel/framework v1.15.3

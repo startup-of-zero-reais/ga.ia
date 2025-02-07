@@ -38,6 +38,7 @@ func signinGroup(router route.Router) {
 func authGroup(router route.Router) {
 	redis := controllers.NewRedisRestController()
 	onboarding := controllers.NewOnboardingController()
+	agents := controllers.NewAgentsController()
 
 	router.Post("/onboarding", onboarding.Set)
 	router.Get("/onboarding", onboarding.Get)
@@ -46,7 +47,7 @@ func authGroup(router route.Router) {
 	router.Get("/redis", redis.Get)
 
 	router.Prefix("/wpp").Group(evolutionGroup)
-	router.Prefix("/agents").Group(agentsGroup)
+	router.Resource("/agents", agents)
 	router.Prefix("/chats").Group(chatsGroup)
 	router.Prefix("/datastores").Group(datastoresGroup)
 	router.Prefix("/notifications").Group(notificationsGroup)

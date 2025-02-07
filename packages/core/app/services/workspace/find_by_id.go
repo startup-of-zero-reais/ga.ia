@@ -1,15 +1,13 @@
 package workspace
 
 import (
-	"fmt"
-
 	"github.com/goravel/framework/facades"
 	"github.com/startup-of-zero-reais/ga.ia/app/http/responses"
 	"github.com/startup-of-zero-reais/ga.ia/app/models"
 )
 
 // FindByID implements Workspace.
-func (w *WorkspaceImpl) FindByID(usrID, wID string) (models.Workspace, error) {
+func (w *Impl) FindByID(usrID, wID string) (models.Workspace, error) {
 	var workspace models.Workspace
 
 	err := facades.Orm().Query().
@@ -21,8 +19,6 @@ func (w *WorkspaceImpl) FindByID(usrID, wID string) (models.Workspace, error) {
 	if err != nil {
 		return models.Workspace{}, err
 	}
-
-	fmt.Println(workspace)
 
 	if workspace.ID == "" {
 		return models.Workspace{}, responses.ErrWorkspaceNotFound

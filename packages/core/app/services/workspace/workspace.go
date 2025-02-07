@@ -6,15 +6,16 @@ import (
 )
 
 type Workspace interface {
-	Create(models.User, requests.CreateWorkspace) (models.Workspace, error)
-	FindByID(string, string) (models.Workspace, error)
-	FindBySlug(string) (models.Workspace, error)
+	Create(user models.User, cWorkspace requests.CreateWorkspace) (models.Workspace, error)
+	FindByID(userID string, wID string) (models.Workspace, error)
+	FindBySlug(slug string) (models.Workspace, error)
+	FindByIDOrSlug(user models.User, idOrSlug string) (models.Workspace, error)
 }
 
-type WorkspaceImpl struct{}
+type Impl struct{}
 
-var _ Workspace = (*WorkspaceImpl)(nil)
+var _ Workspace = (*Impl)(nil)
 
-func NewWorkspaceService() *WorkspaceImpl {
-	return &WorkspaceImpl{}
+func NewWorkspaceService() *Impl {
+	return &Impl{}
 }

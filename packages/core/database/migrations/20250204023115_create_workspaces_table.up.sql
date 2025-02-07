@@ -1,8 +1,9 @@
 CREATE TABLE IF NOT EXISTS workspaces (
-    id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id    UUID NOT NULL,
-    name       VARCHAR(150) NOT NULL,
-    slug       VARCHAR(150),
+    id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id     UUID NOT NULL,
+    name        VARCHAR(150) NOT NULL,
+	description TEXT DEFAULT NULL,
+    slug        VARCHAR(150),
 
     CONSTRAINT fk_workspaces_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) INHERITS (_timestamps);

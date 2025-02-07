@@ -8,7 +8,7 @@ import (
 )
 
 // Create implements Workspace.
-func (w *WorkspaceImpl) Create(usr models.User, cw requests.CreateWorkspace) (models.Workspace, error) {
+func (w *Impl) Create(usr models.User, cw requests.CreateWorkspace) (models.Workspace, error) {
 	var workspace models.Workspace
 	workspace.Name = cw.Name
 	workspace.Slug = cw.Slug
