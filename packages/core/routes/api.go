@@ -1,17 +1,15 @@
 package routes
 
 import (
-	"github.com/goravel/framework/contracts/http"
 	"github.com/goravel/framework/contracts/route"
 	"github.com/goravel/framework/facades"
 	sessionmiddleware "github.com/goravel/framework/session/middleware"
-
 	"github.com/startup-of-zero-reais/ga.ia/app/http/controllers"
 	"github.com/startup-of-zero-reais/ga.ia/app/http/middleware/utils"
 	"github.com/startup-of-zero-reais/ga.ia/app/services/user"
 )
 
-func Api() {
+func API() {
 	facades.Route().Prefix("/api").Middleware(sessionmiddleware.StartSession()).Group(router)
 }
 
@@ -19,11 +17,10 @@ func router(base route.Router) {
 	userService := user.NewUserService()
 
 	base.Prefix("/v1/auth").Group(signinGroup)
-	base.Prefix("/v1").Middleware(utils.GrantAuth(userService.FindByID)).Group(authGroup)
+	base.Prefix("/v1").
+		Middleware(utils.GrantAuth(userService.FindByID)).
+		Group(authGroup)
 	base.Group(webhookRoutes)
-	base.Any("", func(ctx http.Context) http.Response {
-		return ctx.Response().NoContent()
-	})
 }
 
 func signinGroup(router route.Router) {
@@ -31,15 +28,20 @@ func signinGroup(router route.Router) {
 
 	router.Get("/google", controller.RedirectToGoogle)
 	router.Get("/callback", controller.HandleGoogleCallback)
-	router.Middleware(utils.GrantAuth(controller.UserService.FindByID)).Any("/me", controller.Me)
+	router.
+		Middleware(utils.GrantAuth(controller.UserService.FindByID)).
+		Get("/me", controller.Me)
 }
 
-// authGroup are routes who should be authenticated to be able to request resources
+// authGroup are routes who should be authenticated to be able to request resources.
 func authGroup(router route.Router) {
+	auth := controllers.NewAuthController()
 	redis := controllers.NewRedisRestController()
 	onboarding := controllers.NewOnboardingController()
 	agents := controllers.NewAgentsController()
+	plans := controllers.NewPlansController()
 
+	router.Get("/profiles", auth.Profile)
 	router.Post("/onboarding", onboarding.Set)
 	router.Get("/onboarding", onboarding.Get)
 
@@ -53,7 +55,7 @@ func authGroup(router route.Router) {
 	router.Prefix("/notifications").Group(notificationsGroup)
 	router.Prefix("/workspaces").Group(workspacesGroup)
 	router.Prefix("/billings").Group(billingsGroup)
-	router.Prefix("/plans").Group(plansGroup)
+	router.Resource("/plans", plans)
 }
 
 func evolutionGroup(router route.Router) {

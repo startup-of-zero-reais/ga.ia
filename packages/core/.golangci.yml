@@ -10,6 +10,7 @@ linters:
         - depguard
         - wsl
         - forcetypeassert
+        - errcheck
 
 linters-settings:
     tagliatelle:
@@ -23,3 +24,11 @@ linters-settings:
         ignore-names:
             - id
             - err
+
+    ireturn:
+        allow:
+            - anon
+            - error
+            - empty
+            - stdlib
+            - (Response)$

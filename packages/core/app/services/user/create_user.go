@@ -10,7 +10,7 @@ import (
 	"github.com/startup-of-zero-reais/ga.ia/app/models"
 )
 
-func (u *UserImpl) Create(usr requests.CreateUser) (models.User, error) {
+func (u *Impl) Create(usr requests.CreateUser) (models.User, error) {
 	usrEmailVerifiedAt, _ := time.Parse(time.RFC3339, usr.EmailVerifiedAt)
 
 	var user models.User
@@ -31,7 +31,7 @@ func (u *UserImpl) Create(usr requests.CreateUser) (models.User, error) {
 }
 
 const (
-	DUPLICATE_KEY = "23505"
+	DuplicateKey = "23505"
 )
 
 func handlePgError(err error) error {
@@ -44,7 +44,7 @@ func handlePgError(err error) error {
 			Error(err)
 
 		switch e.SQLState() {
-		case DUPLICATE_KEY:
+		case DuplicateKey:
 			return responses.ErrUserAlreadyRegistered
 		default:
 			return responses.ErrUnhandledPgError

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"time"
@@ -30,12 +31,27 @@ func NewAuthController() *AuthController {
 
 func (a AuthController) Me(ctx http.Context) http.Response {
 	usr := ctx.Request().Session().Get("user")
+
 	return ctx.Response().Success().Json(usr)
 }
 
+func (a AuthController) Profile(ctx http.Context) http.Response {
+	usr := ctx.Request().Session().Get("user").(models.User)
+
+	user, err := a.UserService.FindByID(usr.ID)
+	if err != nil {
+		ctx.Request().AbortWithStatusJson(http.StatusForbidden, http.Json{"error": err.Error()})
+
+		return nil
+	}
+
+	return ctx.Response().Success().Json(user)
+}
+
 func (a AuthController) Logout(ctx http.Context) http.Response {
-	facades.Auth(ctx).Logout()
+	_ = facades.Auth(ctx).Logout()
 	s := facades.Config().Get("auth.token_key").(string)
+
 	return ctx.Response().Cookie(http.Cookie{
 		Name:   s,
 		MaxAge: int(time.Now().Add(time.Hour * -24).Unix()),
@@ -107,7 +123,7 @@ func (a AuthController) HandleGoogleCallback(ctx http.Context) http.Response {
 
 	usr := getUserFromSession(result)
 	user, err := a.UserService.FindByID(usr.ID)
-	if err == responses.ErrUserNotFound {
+	if errors.Is(err, responses.ErrUserNotFound) {
 		user, err = a.UserService.Create(usr)
 	}
 

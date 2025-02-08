@@ -10,10 +10,10 @@ type User interface {
 	FindByID(string) (models.User, error)
 }
 
-type UserImpl struct{}
+type Impl struct{}
 
-var _ User = (*UserImpl)(nil)
+var _ User = (*Impl)(nil)
 
-func NewUserService() *UserImpl {
-	return &UserImpl{}
+func NewUserService() *Impl {
+	return &Impl{}
 }

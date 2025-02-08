@@ -8,8 +8,7 @@ import (
 	"github.com/startup-of-zero-reais/ga.ia/routes"
 )
 
-type RouteServiceProvider struct {
-}
+type RouteServiceProvider struct{}
 
 func (receiver *RouteServiceProvider) Register(app foundation.Application) {
 }
@@ -22,9 +21,8 @@ func (receiver *RouteServiceProvider) Boot(app foundation.Application) {
 
 	// Add routes
 	routes.Web()
-	routes.Api()
+	routes.API()
 }
 
 func (receiver *RouteServiceProvider) configureRateLimiting() {
-
 }

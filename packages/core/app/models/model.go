@@ -26,6 +26,7 @@ type Model struct {
 	ID string `gorm:"column:id;primaryKey;not null;default:uuid_generate_v4()" json:"id"`
 }
 
+// JSONB helper to read JSONB column types
 type JSONB map[string]string
 
 func (j *JSONB) Value() (driver.Value, error) {

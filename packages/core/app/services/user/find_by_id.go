@@ -6,11 +6,12 @@ import (
 	"github.com/startup-of-zero-reais/ga.ia/app/models"
 )
 
-func (u *UserImpl) FindByID(id string) (models.User, error) {
+func (u *Impl) FindByID(id string) (models.User, error) {
 	var user models.User
 
 	err := facades.Orm().Query().
 		Where("id", id).
+		With("Subscription.Plan.PlanFeatures").
 		First(&user)
 	if err != nil {
 		facades.Log().
