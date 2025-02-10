@@ -5,6 +5,8 @@ export const ONBOARDING_STEPS = [
 	'criar-agente',
 	'planos',
 
+	'checkout',
+
 	'criar-instancia',
 	'conectar-whatsapp',
 	'configurar-llm',

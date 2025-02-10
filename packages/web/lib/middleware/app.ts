@@ -45,6 +45,10 @@ export default async function AppMiddleware(request: NextRequest) {
 		request.cookies.get(SESSION_TOKEN)?.value,
 	);
 
+	const persistentQuery = request.nextUrl.searchParams;
+	const query =
+		persistentQuery.size > 0 ? `?${persistentQuery.toString()}` : '';
+
 	// se o usuario nao esta logado nem em pagina de login ou callback de autorizacao
 	// enviamos ele para o login
 	if (!user && !isInPublicPath) {
@@ -66,10 +70,14 @@ export default async function AppMiddleware(request: NextRequest) {
 			step !== ONBOARDING_COMPLETED
 		) {
 			return NextResponse.redirect(
-				new URL(`/app/onboarding/${step}`, request.url),
+				new URL(`/app/onboarding/${step}${query}`, request.url),
 			);
 		} else if (['/', PAGE.LOGIN].includes(path)) {
 			return NextResponse.redirect(new URL(`/app/dashboard`, request.url));
+		} else if (step != ONBOARDING_COMPLETED && step && !path.includes(step)) {
+			return NextResponse.redirect(
+				new URL(`/app/onboarding/${step}${query}`, request.url),
+			);
 		}
 	}
 
