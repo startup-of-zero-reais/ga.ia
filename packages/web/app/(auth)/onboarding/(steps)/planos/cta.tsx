@@ -28,7 +28,7 @@ export function BasicPlanButton() {
 			variant="outline"
 			className="text-primary w-full"
 			disabled={isLoading}
-			onClick={async () => continueTo('checkout', { plan: 'basic' })}
+			onClick={async () => continueTo('checkout', { plan: 'Básico' })}
 		>
 			{isLoading && <LoaderCircle className="animate-spin" />}
 			Escolher o básico
@@ -44,7 +44,7 @@ export function ProPlanButton() {
 			variant="outline"
 			className="w-full"
 			disabled={isLoading}
-			onClick={async () => continueTo('checkout', { plan: 'pro' })}
+			onClick={async () => continueTo('checkout', { plan: 'Profissional' })}
 		>
 			{isLoading && <LoaderCircle className="animate-spin" />}
 			Escolher o profissional

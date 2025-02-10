@@ -1,5 +1,6 @@
 import { CheckCircle2, Circle, CircleDashed, Copy, Lock } from 'lucide-react';
 import { fetchMe } from '@/lib/fetchers/auth';
+import { fetchPlans } from '@/lib/fetchers/plans';
 import { Separator } from '@/components/ui/separator';
 import {
 	Card,
@@ -15,8 +16,24 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { PlanCard } from '@/app/(auth)/onboarding/(steps)/planos/plan-card';
 
-export default async function CheckoutPage() {
+interface CheckoutPageParams {
+	searchParams: Promise<{
+		plan?: string;
+	}>;
+}
+
+export default async function CheckoutPage({
+	searchParams,
+}: CheckoutPageParams) {
+	const params = await searchParams;
+
 	const me = await fetchMe();
+	const plans = await fetchPlans({ name: params.plan });
+	const plan = plans.at(0);
+
+	if (!plan) {
+		return null;
+	}
 
 	const pix = {
 		id: 'JEANCARL00000000588522ASA',
@@ -31,7 +48,7 @@ export default async function CheckoutPage() {
 
 	return (
 		<div className="grid xl:grid-cols-[1fr_380px] gap-6">
-			<div className="flex flex-col gap-6">
+			<div className="flex flex-col gap-6 w-full grow-0">
 				<header className="grid grid-cols-5 gap-4 place-items-center">
 					<div className="flex items-center gap-2 text-green-600">
 						<CheckCircle2 />
@@ -131,10 +148,13 @@ export default async function CheckoutPage() {
 					</TabsContent>
 
 					<TabsContent value="pix">
-						<div className="grid grid-cols-2">
+						<div className="grid grid-cols-3">
+							{/* eslint-disable-next-line @next/next/no-img-element */}
 							<img
+								loading="lazy"
 								src={`data:image/png;base64,${pix.encodedImage}`}
 								alt="qr-code-pix"
+								className="col-span-2"
 							/>
 
 							<div className="flex gap-2 items-center">
@@ -158,45 +178,7 @@ export default async function CheckoutPage() {
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
-						<PlanCard
-							plan={{
-								id: 'plan',
-								name: 'Básico',
-								description: 'Plano básico',
-								plan_features: [
-									{
-										id: '1',
-										feature_code: 'MAX_WORKSPACES',
-										limit: 2,
-										plan_id: '1',
-									},
-									{
-										id: '2',
-										feature_code: 'MAX_AGENTS',
-										limit: 5,
-										plan_id: '1',
-									},
-									{
-										id: '3',
-										feature_code: 'MAX_DATASTORES',
-										limit: 5,
-										plan_id: '1',
-									},
-									{
-										id: '4',
-										feature_code: 'MAX_TEAM_USERS',
-										limit: 5,
-										plan_id: '1',
-									},
-									{
-										id: '5',
-										feature_code: 'ABLE_TO_CONNECT_WPP',
-										limit: 0,
-										plan_id: '1',
-									},
-								],
-							}}
-						/>
+						<PlanCard plan={plan} />
 					</CardContent>
 
 					<CardFooter></CardFooter>

@@ -28,7 +28,7 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
 			>
-				<main className="grid min-h-screen">{children}</main>
+				<main className="grid min-h-screen @container">{children}</main>
 				<Toaster richColors />
 			</body>
 		</html>

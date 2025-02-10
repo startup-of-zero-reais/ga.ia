@@ -4,6 +4,15 @@ import { Plan } from '@/lib/types/entities/plan';
 
 const BASE_URL = `${API_DOMAIN}/v1/plans`;
 
-export async function fetchPlans() {
-	return authFetch<Plan[]>(`${BASE_URL}/?rel=plan_features`);
+interface FetchPlansParams {
+	name?: string;
+}
+
+export async function fetchPlans({ name }: FetchPlansParams = {}) {
+	const urlQuery = new URLSearchParams({ rel: 'plan_features' });
+	if (name) {
+		urlQuery.set('name', name);
+	}
+
+	return authFetch<Plan[]>(`${BASE_URL}/?${urlQuery}`);
 }
