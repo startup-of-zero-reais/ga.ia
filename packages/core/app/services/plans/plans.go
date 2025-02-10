@@ -3,7 +3,7 @@ package plans
 import "github.com/startup-of-zero-reais/ga.ia/app/models"
 
 type Plans interface {
-	FindPlans(rel []string) ([]models.Plan, error)
+	FindPlans(name string, rel []string) ([]models.Plan, error)
 	FindMyPlan(user models.User) (models.Plan, error)
 	FindPlanByID(planID string) (models.Plan, error)
 }

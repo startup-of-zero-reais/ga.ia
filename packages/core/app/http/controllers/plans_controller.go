@@ -17,9 +17,10 @@ func NewPlansController() *PlansController {
 }
 
 func (r *PlansController) Index(ctx http.Context) http.Response {
+	name := ctx.Request().Query("name")
 	rel := ctx.Request().QueryArray("rel")
 
-	plans, err := r.FindPlans(rel)
+	plans, err := r.FindPlans(name, rel)
 	if err != nil {
 		ctx.Request().AbortWithStatusJson(http.StatusNotFound, http.Json{
 			"error": err.Error(),

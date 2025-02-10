@@ -13,10 +13,14 @@ const (
 )
 
 // FindPlans implements Plans.
-func (i *Impl) FindPlans(relations []string) ([]models.Plan, error) {
+func (i *Impl) FindPlans(name string, relations []string) ([]models.Plan, error) {
 	var plans []models.Plan
 
 	query := facades.Orm().Query().Limit(PlansPageSize).OrderBy("created_at")
+
+	if name != "" {
+		query = query.Where("name = ?", name)
+	}
 
 	for _, rel := range helpers.ConvertToStructNameList(relations) {
 		query = query.With(rel)
