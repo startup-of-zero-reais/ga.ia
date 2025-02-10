@@ -11,10 +11,12 @@ import {
 export function useOnboardingProgress() {
 	const router = useRouter();
 
-	const { executeAsync, execute, isExecuting, hasSucceeded } = useAction(
+	const { executeAsync, isExecuting, hasSucceeded } = useAction(
 		setOnboardingProgress,
 		{
-			onSuccess() {},
+			onSuccess() {
+				console.log('Onboarding step updated');
+			},
 			onError({ error }) {
 				toast.error('Ops, ocorreu uma falha. Tente outra vez');
 				console.error('Failed to update onboarding progress', error);
@@ -30,10 +32,10 @@ export function useOnboardingProgress() {
 				query += new URLSearchParams(extras).toString();
 			}
 
-			execute({ onboardingStep: step });
+			await executeAsync({ onboardingStep: step });
 			router.push(`/onboarding/${step}${query}`);
 		},
-		[execute, router],
+		[executeAsync, router],
 	);
 
 	const finish = useCallback(async () => {

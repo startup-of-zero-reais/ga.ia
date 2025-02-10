@@ -73,6 +73,151 @@
 	}
 }
 
+@theme {
+	--breakpoint-2xl: 87.5rem;
+	--breakpoint-3xl: 96rem;
+
+	--color-background: hsl(var(--background));
+	--color-foreground: hsl(var(--foreground));
+	--color-card: hsl(var(--card));
+	--color-card-foreground: hsl(var(--card-foreground));
+	--color-popover: hsl(var(--popover));
+	--color-popover-foreground: hsl(var(--popover-foreground));
+	--color-primary: hsl(var(--primary));
+	--color-primary-foreground: hsl(var(--primary-foreground));
+	--color-secondary: hsl(var(--secondary));
+	--color-secondary-foreground: hsl(var(--secondary-foreground));
+	--color-muted: hsl(var(--muted));
+	--color-muted-foreground: hsl(var(--muted-foreground));
+	--color-accent: hsl(var(--accent));
+	--color-accent-foreground: hsl(var(--accent-foreground));
+	--color-destructive: hsl(var(--destructive));
+	--color-destructive-foreground: hsl(var(--destructive-foreground));
+	--color-border: hsl(var(--border));
+	--color-input: hsl(var(--input));
+	--color-ring: hsl(var(--ring));
+	--color-chart-1: hsl(var(--chart-1));
+	--color-chart-2: hsl(var(--chart-2));
+	--color-chart-3: hsl(var(--chart-3));
+	--color-chart-4: hsl(var(--chart-4));
+	--color-chart-5: hsl(var(--chart-5));
+	--color-sidebar-background: hsl(var(--sidebar-background));
+	--color-sidebar-foreground: hsl(var(--sidebar-foreground));
+	--color-sidebar-primary: hsl(var(--sidebar-primary));
+	--color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+	--color-sidebar-accent: hsl(var(--sidebar-accent));
+	--color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+	--color-sidebar-border: hsl(var(--sidebar-border));
+	--color-sidebar-ring: hsl(var(--sidebar-ring));
+
+	--animate-caret-blink: caret-blink 1.25s ease-out infinite;
+	--animate-scale-in: scale-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+	--animate-fade-in: fade-in 0.2s ease-out forwards;
+	--animate-slide-up-fade: slide-up-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+	--animate-slide-right-fade: slide-right-fade 0.4s
+		cubic-bezier(0.16, 1, 0.3, 1);
+	--animate-slide-down-fade: slide-down-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+	--animate-slide-left-fade: slide-left-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+	--animate-slide-in-from-right: slide-in-from-right 0.2s ease;
+	--animate-slide-out-to-right: slide-out-to-right 0.2s ease;
+	--animate-enter-from-right: enter-from-right 0.15s ease;
+	--animate-enter-from-left: enter-from-left 0.15s ease;
+	--animate-exit-to-right: exit-to-right 0.15s ease;
+	--animate-exit-to-left: exit-to-left 0.15s ease;
+	--animate-scale-in-content: scale-in-content 0.2s ease;
+	--animate-scale-out-content: scale-out-content 0.2s ease;
+	--animate-accordion-down: accordion-down 0.2s ease-out;
+	--animate-accordion-up: accordion-up 0.2s ease-out;
+	--animate-infinite-scroll: infinite-scroll 22s linear infinite;
+	--animate-text-appear: text-appear 0.15s ease;
+	--animate-table-pinned-shadow: table-pinned-shadow cubic-bezier(0, 0, 1, 0);
+	--animate-pulse-scale: pulse-scale 6s ease-out infinite;
+	--animate-gradient-move: gradient-move 5s linear infinite;
+
+	@keyframes caret-blink {
+		0%,
+		70%,
+		100% {
+			opacity: 1;
+		}
+
+		20%,
+		50% {
+			opacity: 0;
+		}
+	}
+
+	@keyframes accordion-down {
+		from {
+			height: 0;
+		}
+		to {
+			height: var(--radix-accordion-content-height);
+		}
+	}
+
+	@keyframes accordion-up {
+		from {
+			height: var(--radix-accordion-content-height);
+		}
+		to {
+			height: 0;
+		}
+	}
+
+	@keyframes infinite-scroll {
+		0% {
+			transform: translateX(0);
+		}
+		100% {
+			transform: translateX(-150%);
+		}
+	}
+
+	@keyframes text-appear {
+		0% {
+			opacity: 0;
+			transform: rotateX(45deg) scale(0.95);
+		}
+		100% {
+			opacity: 1;
+			transform: rotateX(0deg) scale(1);
+		}
+	}
+
+	@keyframes table-pinned-shadow {
+		0% {
+			filter: drop-shadow(rgba(0, 0, 0, 0.1) -2px 10px 6px);
+		}
+		100% {
+			filter: drop-shadow(rgba(0, 0, 0, 0) -2px 10px 6px);
+		}
+	}
+
+	@keyframes pulse-scale {
+		0% {
+			transform: scale(0.8);
+			opacity: 0;
+		}
+		30% {
+			opacity: 1;
+		}
+		100% {
+			transform: scale(2);
+			opacity: 0;
+		}
+	}
+
+	@keyframes gradient-move {
+		0% {
+			backgroundposition: 0% 50%;
+		}
+		100% {
+			backgroundposition: 200% 50%;
+		}
+	}
+}
+
 @layer base {
 	* {
 		@apply border-border;

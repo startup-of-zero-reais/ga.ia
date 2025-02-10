@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import CreateWorkspaceForm from './form';
 
 export default function Page() {
@@ -9,7 +10,9 @@ export default function Page() {
 
 			<p>O Workspace é onde você gerencia seus agentes e datastores.</p>
 
-			<CreateWorkspaceForm />
+			<Suspense>
+				<CreateWorkspaceForm />
+			</Suspense>
 		</div>
 	);
 }

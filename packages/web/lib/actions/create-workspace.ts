@@ -8,9 +8,10 @@ import { authActionClient } from './safe-action';
 export const createWorkspaceAction = authActionClient
 	.schema(CreateWorkspaceSchema)
 	.action(async ({ parsedInput }) => {
-		const { name } = parsedInput;
+		const { name, description } = parsedInput;
 		const body = new FormData();
 		body.append('name', name.trim());
+		body.append('description', description?.trim() || '');
 
 		await authFetch(`${API_DOMAIN}/v1/workspaces/`, {
 			method: 'POST',
