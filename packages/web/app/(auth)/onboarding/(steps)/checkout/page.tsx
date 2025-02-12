@@ -1,6 +1,12 @@
 import { CheckCircle2, Circle, CircleDashed, Copy, Lock } from 'lucide-react';
 import { fetchMe } from '@/lib/fetchers/auth';
 import { fetchPlans } from '@/lib/fetchers/plans';
+import {
+	BASIC_PLAN_NAME,
+	FREE_PLAN_NAME,
+	PRO_PLAN_NAME,
+} from '@/lib/constants/plans';
+import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import {
 	Card,
@@ -14,7 +20,8 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { PlanCard } from '@/app/(auth)/onboarding/(steps)/planos/plan-card';
+import { PlanCard } from './plan-card';
+import ChangePlanButton from './change-plan';
 
 interface CheckoutPageParams {
 	searchParams: Promise<{
@@ -49,18 +56,18 @@ export default async function CheckoutPage({
 	return (
 		<div className="grid xl:grid-cols-[1fr_380px] gap-6">
 			<div className="flex flex-col gap-6 w-full grow-0">
-				<header className="grid grid-cols-5 gap-4 place-items-center">
-					<div className="flex items-center gap-2 text-green-600">
+				<header className="grid grid-cols-1 md:grid-cols-5 gap-4 place-items-center border p-4 rounded-md bg-card/80">
+					<div className="grid grid-cols-[auto_1fr] w-full items-center gap-2 text-green-600">
 						<CheckCircle2 />
 						Configuração
 					</div>
-					<Separator />
-					<div className="flex items-center gap-2">
+					<Separator className="hidden md:block" />
+					<div className="grid grid-cols-[auto_1fr] w-full items-center gap-2">
 						<Circle />
 						Pagamento
 					</div>
-					<Separator />
-					<div className="flex items-center gap-2 text-muted-foreground">
+					<Separator className="hidden md:block" />
+					<div className="grid grid-cols-[auto_1fr] w-full items-center gap-2 text-muted-foreground">
 						<CircleDashed />
 						Finalizado
 					</div>
@@ -68,7 +75,7 @@ export default async function CheckoutPage({
 
 				<div className="space-y-6">
 					<h1 className="text-xl font-semibold">Informações de cobrança</h1>
-					<div className="grid grid-cols-2 gap-x-4 gap-y-3">
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3">
 						<div>
 							<Label>
 								Nome <span className="text-destructive">*</span>
@@ -177,11 +184,40 @@ export default async function CheckoutPage({
 							Confira os dados da sua assinatura
 						</CardDescription>
 					</CardHeader>
-					<CardContent>
+					<CardContent className="space-y-4">
+						<div className="grid grid-cols-2 gap-2">
+							<span className="col-span-2 italic">Alterar plano</span>
+							<ChangePlanButton
+								variant="outline"
+								plan={BASIC_PLAN_NAME}
+								className={cn(
+									plan.name == BASIC_PLAN_NAME && 'border-primary text-primary',
+								)}
+							>
+								{BASIC_PLAN_NAME}
+							</ChangePlanButton>
+
+							<ChangePlanButton
+								variant="outline"
+								plan={PRO_PLAN_NAME}
+								className={cn(
+									plan.name == PRO_PLAN_NAME && 'border-primary text-primary',
+								)}
+							>
+								{PRO_PLAN_NAME}
+							</ChangePlanButton>
+						</div>
+
 						<PlanCard plan={plan} />
 					</CardContent>
 
-					<CardFooter></CardFooter>
+					<CardFooter className="gap-4">
+						<ChangePlanButton variant="secondary" plan={FREE_PLAN_NAME}>
+							Continuar com gratuito
+						</ChangePlanButton>
+
+						<Button className="w-full">Pagar</Button>
+					</CardFooter>
 				</Card>
 			</div>
 		</div>

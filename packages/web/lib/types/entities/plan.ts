@@ -22,7 +22,7 @@ export const FeatureCodeLabel = {
 	[ABLE_TO_CONNECT_WPP]: 'Conexão com whatsapp',
 };
 
-type FeatureCode = (typeof featureCodes)[number];
+export type FeatureCode = (typeof featureCodes)[number];
 
 export interface PlanFeatures extends Timestamps, PK {
 	plan_id: string;
