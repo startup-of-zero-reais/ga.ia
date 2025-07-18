@@ -1,6 +1,6 @@
 module github.com/startup-of-zero-reais/ga.ia
 
-go 1.22.7
+go 1.23.0
 
 toolchain go1.23.3
 
@@ -15,7 +15,7 @@ require (
 	github.com/jackc/pgx/v5 v5.7.2
 	github.com/opus-domini/fast-shot v1.1.4
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/oauth2 v0.24.0
+	golang.org/x/oauth2 v0.27.0
 	google.golang.org/grpc v1.70.0
 	gorm.io/gorm v1.25.12
 )
